@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    username: root
+    password: zsq990306
+    url: jdbc:mysql://localhost:3306/mp?userSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    #配置监控统计的filters,去掉后监控界面sql无法统计，‘wall’用于防火墙
+    filters: stat,wall
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+#配置mybatisplus,相当于在Spring中配置MybatisSqlSessionFactoryBean
+mybatis-plus:
+  configuration:
+    #这样的话在开发过程中发送的sql会打印出来
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 驼峰下划线转换（MP2.3之后默认开启，可不配）
+    map-underscore-to-camel-case: true
+  #扫描sql映射文件,这样自定义的sql语句就能起作用
+  mapper-locations:
+    - classpath*:mapper/*.xml
+  #相当于在Spring中配置GlobalConfig和Dbconfig
+  global-config:
+    db-config:
+      id-type: auto
